@@ -1,0 +1,8 @@
+# depslib dependency file v1.0
+1513704047 source:e:\fall 2017 18\graphics g\project help\project\cargame\main.cpp
+	<bits/stdc++.h>
+	<GL/gl.h>
+	<GL/glut.h>
+	<windows.h>
+	<mmsystem.h>
+

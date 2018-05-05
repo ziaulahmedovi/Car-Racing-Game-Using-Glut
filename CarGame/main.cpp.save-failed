@@ -1,0 +1,1029 @@
+#include <bits/stdc++.h>
+#include<GL/gl.h>
+#include <GL/glut.h>
+#include<windows.h>
+#include<mmsystem.h>
+#define ESCAPE 27
+using namespace std;
+//using namespace irrklang;
+//std::array<float,3> randomRoadX {.29,.455,.625};
+
+static bool pause;
+static int newspeed;
+GLint window;
+float mainCarx=0.3;
+float mainCary=0;
+float firstDividerx=.41;
+float firstDividery=.75;
+float secondDividerx=.59;
+float secondDividery=.75;
+
+float enemyLocationy=.75;
+ float lavelTime=0;
+ float templavelTime=0;
+ int speed=60;
+int point=0;
+int viewCarTime=0;
+
+float randomRoadX[]={.29,.455,.625};
+float randomRoadX2[2];
+float LocationX=.29;
+float LocationX2=.455;
+
+int score=0;
+bool clash=false;
+bool night= false;
+//divider
+
+float   dy1=.75,
+ dy2=.75-.1,
+ dy3=.75-.2,
+ dy4=.75-.3,
+ dy5=.75-.4,
+ dy6=.75-.5,
+ dy7=.75-.6,
+ dy8=.75-.7;
+
+//float runDivider=0;
+
+//Initializes 3D rendering
+void initRendering() {
+	glEnable(GL_DEPTH_TEST);
+}
+
+//Called when the window is resized
+void handleResize(int w, int h) {
+	glViewport(0, 0, w, h);
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	gluPerspective(45.0, (double)w / (double)h, 1.0, 200.0);
+}
+
+float _angle = 0.0;
+float _cameraAngle = 0.0;
+float _ang_tri = 0.0;
+
+void dawRoad(void)
+{
+glBegin(GL_QUADS); //left side road
+
+glColor3f(.8823529, .537254, .2588235);//(R,G,B)
+
+glVertex3f(0, 0, 0.0);
+glVertex3f(.25, 0.0, 0.0);
+glVertex3f(.25, 1, 0.0);
+glVertex3f(0, 1, 0.0);
+
+
+glEnd();
+glBegin(GL_LINES); //Left House Border.
+
+glColor3f(0.0, 0.0, 0.0);//(R,G,B)
+glVertex3f(0.0, 0.5, 0.0);
+glVertex3f(.25, 1, 0.0);
+
+
+glEnd();
+
+
+
+glBegin(GL_POLYGON); //Left House Window 1
+
+glColor3f(.0, .0, 0.0);//(R,G,B)
+
+glVertex3f(0.2, 0.8, 0.0);
+glVertex3f(0.2, .7, 0.0);
+glVertex3f(.23, .8, 0.0);
+glVertex3f(.23, .89, 0.0);
+
+
+
+glEnd();
+
+
+
+
+
+
+glBegin(GL_QUADS); //Right side road
+
+glColor3f(.8823529, .537254, .2588235);//(R,G,B)
+
+glVertex3f(.76, 0, 0.0);
+glVertex3f(1, 0.0, 0.0);
+glVertex3f(1, 1, 0.0);
+glVertex3f(.76, 1, 0.0);
+
+
+glEnd();
+
+glBegin(GL_LINES); //Right House Border.
+glColor3f(0.0, 0.0, 0.0);//(R,G,B)
+
+glVertex3f(1.0, 0.5, 0.0);
+glVertex3f(.76, 1, 0.0);
+
+glEnd();
+
+
+glBegin(GL_POLYGON); //Main road
+
+glColor3f(.5, .5, 0.5);//(R,G,B)
+
+glVertex3f(0.0, 0.0, 0.0);
+glVertex3f(1.0, 0, 0.0);
+glVertex3f(.76, .76, 0.0);
+glVertex3f(.25, .76, 0.0);
+
+glEnd();
+
+//first Road Mark
+
+float
+ x=firstDividerx;
+
+glBegin(GL_QUADS);
+
+glColor3f(1, 1, 1);//(R,G,B)
+glVertex3f(x, dy1, 0.0);
+glVertex3f(x+.005, dy1, 0.0);
+glVertex3f(x+.005, dy1-0-0.02, 0.0);
+glVertex3f(x, dy1-0-0.02, 0.0);
+
+
+glVertex3f(x, dy2, 0.0);
+glVertex3f(x+.005, dy2, 0.0);
+glVertex3f(x+.005, dy2-0-0.02, 0.0);
+glVertex3f(x, dy2-0-0.02, 0.0);
+
+
+
+
+glVertex3f(x, dy3, 0.0);
+glVertex3f(x+.005, dy3, 0.0);
+glVertex3f(x+.005, dy3-0-0.02, 0.0);
+glVertex3f(x, dy3-0-0.02, 0.0);
+
+
+
+
+glVertex3f(x, dy4, 0.0);
+glVertex3f(x+.005, dy4, 0.0);
+glVertex3f(x+.005, dy4-0-0.02, 0.0);
+glVertex3f(x, dy4-0-0.02, 0.0);
+
+
+glVertex3f(x, dy5, 0.0);
+glVertex3f(x+.005, dy5, 0.0);
+glVertex3f(x+.005, dy5-0-0.02, 0.0);
+glVertex3f(x, dy5-0-0.02, 0.0);
+
+
+
+
+glVertex3f(x, dy6, 0.0);
+glVertex3f(x+.005, dy6, 0.0);
+glVertex3f(x+.005, dy6-0-0.02, 0.0);
+glVertex3f(x, dy6-0-0.02, 0.0);
+
+
+
+glVertex3f(x, dy7, 0.0);
+glVertex3f(x+.005, dy7, 0.0);
+glVertex3f(x+.005, dy7-0-0.02, 0.0);
+glVertex3f(x, dy7-0-0.02, 0.0);
+
+
+
+
+glVertex3f(x, dy8, 0.0);
+glVertex3f(x+.005, dy8, 0.0);
+glVertex3f(x+.005, dy8-0-0.02, 0.0);
+glVertex3f(x, dy8-0-0.02, 0.0);
+
+
+
+
+glEnd();
+
+
+
+//Second Road Mark
+
+ x=secondDividerx;
+
+
+glBegin(GL_QUADS);
+
+glColor3f(1, 1, 1);//(R,G,B)
+glVertex3f(x, dy1, 0.0);
+glVertex3f(x+.005, dy1, 0.0);
+glVertex3f(x+.005, dy1-0-0.02, 0.0);
+glVertex3f(x, dy1-0-0.02, 0.0);
+
+
+glVertex3f(x, dy2, 0.0);
+glVertex3f(x+.005, dy2, 0.0);
+glVertex3f(x+.005, dy2-0-0.02, 0.0);
+glVertex3f(x, dy2-0-0.02, 0.0);
+
+
+
+
+glVertex3f(x, dy3, 0.0);
+glVertex3f(x+.005, dy3, 0.0);
+glVertex3f(x+.005, dy3-0-0.02, 0.0);
+glVertex3f(x, dy3-0-0.02, 0.0);
+
+
+
+
+glVertex3f(x, dy4, 0.0);
+glVertex3f(x+.005, dy4, 0.0);
+glVertex3f(x+.005, dy4-0-0.02, 0.0);
+glVertex3f(x, dy4-0-0.02, 0.0);
+
+
+glVertex3f(x, dy5, 0.0);
+glVertex3f(x+.005, dy5, 0.0);
+glVertex3f(x+.005, dy5-0-0.02, 0.0);
+glVertex3f(x, dy5-0-0.02, 0.0);
+
+
+
+
+glVertex3f(x, dy6, 0.0);
+glVertex3f(x+.005, dy6, 0.0);
+glVertex3f(x+.005, dy6-0-0.02, 0.0);
+glVertex3f(x, dy6-0-0.02, 0.0);
+
+
+
+glVertex3f(x, dy7, 0.0);
+glVertex3f(x+.005, dy7, 0.0);
+glVertex3f(x+.005, dy7-0-0.02, 0.0);
+glVertex3f(x, dy7-0-0.02, 0.0);
+
+
+
+
+glVertex3f(x, dy8, 0.0);
+glVertex3f(x+.005, dy8, 0.0);
+glVertex3f(x+.005, dy8-0-0.02, 0.0);
+glVertex3f(x, dy8-0-0.02, 0.0);
+
+
+
+
+glEnd();
+
+
+
+
+}
+
+
+void dawYourCar(void)
+{
+ glPushMatrix();
+glTranslatef(mainCarx, mainCary, 0.0); //Move forward 5 units
+
+    float x=0, y=0;
+
+glBegin(GL_POLYGON);//Body Back Create
+
+    glColor3f(0.1, 0.1, 1.0);//(R,G,B)
+
+    glVertex3f(x-.01, y-.01, 0.0);
+    glVertex3f(x+.09, y-.01, 0.0);
+    glVertex3f(x+.09, y+.03, 0.0);
+    glVertex3f(x-.01, y+.03, 0.0);
+
+glEnd();
+
+glBegin(GL_POLYGON);//Body Back Light Left
+
+    glColor3f(1.0, 0.0, 0.0);//(R,G,B)
+
+    glVertex3f(x-.01, y+.01, 0.0);
+    glVertex3f(x+.01, y+.01, 0.0);
+    glVertex3f(x+.01, y+.02, 0.0);
+    glVertex3f(x-.01, y+.02, 0.0);
+
+glEnd();
+
+glBegin(GL_POLYGON);//Body Back Light Right
+
+    glColor3f(1.0, 0.0, 0.0);//(R,G,B)
+
+    glVertex3f(x+.07, y+.01, 0.0);
+    glVertex3f(x+.09, y+.01, 0.0);
+    glVertex3f(x+.09, y+.02, 0.0);
+    glVertex3f(x+.07, y+.02, 0.0);
+
+glEnd();
+
+glBegin(GL_POLYGON);//Body Wheel left up
+
+    glColor3f(0.0, 0.0, 0.0);//(R,G,B)
+
+    glVertex3f(x-.01, y+.07, 0.0);
+    glVertex3f(x, y+.07, 0.0);
+    glVertex3f(x, y+.09, 0.0);
+    glVertex3f(x-.01, y+.09, 0.0);
+
+glEnd();
+glBegin(GL_POLYGON);//Body Wheel Right up
+
+    glColor3f(0.0, 0.0, 0.0);//(R,G,B)
+
+    glVertex3f(x+.08, y+.07, 0.0);
+    glVertex3f(x+.09, y+.07, 0.0);
+    glVertex3f(x+.09, y+.09, 0.0);
+    glVertex3f(x+.08, y+.09, 0.0);
+glEnd();
+glBegin(GL_POLYGON);//Body  Create
+
+    glColor3f(0.0, 0.0, 1.0);//(R,G,B)
+
+    glVertex3f(x-.01, y+.03, 0.0);
+    glVertex3f(x+.09, y+.03, 0.0);
+    glVertex3f(x+.08, y+.13, 0.0);
+    glVertex3f(x, y+.13, 0.0);
+
+glEnd();
+
+glBegin(GL_POLYGON);//Body Back Glass Create
+
+    glColor3f(0.0, 0.0, 0.0);//(R,G,B)
+
+    glVertex3f(x+.015, y+.03, 0.0);
+    glVertex3f(x+.065, y+.03, 0.0);
+    glVertex3f(x+.065, y+.1, 0.0);
+    glVertex3f(x+.015, y+.1, 0.0);
+
+glEnd();
+
+glBegin(GL_POLYGON);//Body Back left Glass Create
+
+    glColor3f(0.0, 0.0, 0.0);//(R,G,B)
+
+    glVertex3f(x, y+.06, 0.0);
+    glVertex3f(x+.008, y+.06, 0.0);
+    glVertex3f(x+.008, y+.08, 0.0);
+    glVertex3f(x, y+.08, 0.0);
+
+glEnd();
+
+glBegin(GL_POLYGON);//Body Back right Glass Create
+
+    glColor3f(0.0, 0.0, 0.0);//(R,G,B)
+
+    glVertex3f(x+.07, y+.06, 0.0);
+    glVertex3f(x+.078, y+.06, 0.0);
+    glVertex3f(x+.078, y+.08, 0.0);
+    glVertex3f(x+.07, y+.08, 0.0);
+
+glEnd();
+glBegin(GL_POLYGON);//Body Left looking Glass Create
+
+    glColor3f(0.0, 0.0, 1.0);//(R,G,B)
+
+    glVertex3f(x-.014, y+.09, 0.0);
+    glVertex3f(x, y+.09, 0.0);
+    glVertex3f(x, y+.10, 0.0);
+    glVertex3f(x-.014, y+.10, 0.0);
+
+glEnd();
+
+glBegin(GL_POLYGON);//Body Right looking Glass Create
+
+    glColor3f(0.0, 0.0, 1.0);//(R,G,B)
+
+    glVertex3f(x+.08, y+.09, 0.0);
+    glVertex3f(x+.094, y+.09, 0.0);
+    glVertex3f(x+.094, y+.10, 0.0);
+    glVertex3f(x+.08, y+.10, 0.0);
+
+glEnd();
+
+
+
+glBegin(GL_POLYGON);//Body Wheel left Down
+
+    glColor3f(0.0, 0.0, 0.0);//(R,G,B)
+
+    glVertex3f(x-.01, y+.02, 0.0);
+    glVertex3f(x-.015, y+.02, 0.0);
+    glVertex3f(x-.015, y+0.0, 0.0);
+    glVertex3f(x-.01, y+0.0, 0.0);
+
+glEnd();
+glBegin(GL_POLYGON);//Body Wheel Right Down
+
+    glColor3f(0.0, 0.0, 0.0);//(R,G,B)
+
+    glVertex3f(x+.09, y+.02, 0.0);
+    glVertex3f(x+.09, y+0.0, 0.0);
+    glVertex3f(x+.095, y+0.0, 0.0);
+    glVertex3f(x+.095, y+.02, 0.0);
+glEnd();
+
+
+
+glPopMatrix();
+}
+
+
+void dawEnemyCar(void)
+{
+ glPushMatrix();
+float dy=enemyLocationy;
+glTranslatef(LocationX,dy-=.01 , 0.0); //Move forward 5 units
+glRotatef(180, 1.0, 0.0, 0.0);
+    float x=0, y=0;
+glBegin(GL_POLYGON);//Bonutt create
+
+glBegin(GL_POLYGON);//Bonutt create
+
+    glColor3f(1.0, 0.0, 0.0);//(R,G,B)
+
+     glVertex3f(x-.01, y+.09, 0.0);
+     glVertex3f(x+.09, y+.09, 0.0);
+     glVertex3f(x+.08, y+.13, 0.0);
+     glVertex3f(x, y+.13, 0.0);
+
+glEnd();
+
+
+
+
+glBegin(GL_POLYGON);//Body Create
+
+    glColor3f(1.0, 0.0, 0.0);//(R,G,B)
+
+    glVertex3f(x-.01, y-.01, 0.0);
+    glVertex3f(x+.09, y-.01, 0.0);
+    glVertex3f(x+.09, y+.09, 0.0);
+    glVertex3f(x-.01, y+.09, 0.0);
+
+glEnd();
+
+
+glBegin(GL_POLYGON);//Body Wheel left up
+
+    glColor3f(0.0, 0.0, 0.0);//(R,G,B)
+
+    glVertex3f(x-.01, y+.09, 0.0);
+    glVertex3f(x-.015, y+.09, 0.0);
+    glVertex3f(x-.015, y+.07, 0.0);
+    glVertex3f(x-.01, y+.07, 0.0);
+
+glEnd();
+glBegin(GL_POLYGON);//Body Wheel Right up
+
+    glColor3f(0.0, 0.0, 0.0);//(R,G,B)
+
+    glVertex3f(x+.09, y+.09, 0.0);
+    glVertex3f(x+.09, y+.07, 0.0);
+    glVertex3f(x+.095, y+.07, 0.0);
+    glVertex3f(x+.095, y+.09, 0.0);
+glEnd();
+glBegin(GL_POLYGON);//Body Wheel left Down
+
+    glColor3f(0.0, 0.0, 0.0);//(R,G,B)
+
+    glVertex3f(x-.01, y+.02, 0.0);
+    glVertex3f(x-.015, y+.02, 0.0);
+    glVertex3f(x-.015, y+0.0, 0.0);
+    glVertex3f(x-.01, y+0.0, 0.0);
+
+glEnd();
+glBegin(GL_POLYGON);//Body Wheel Right Down
+
+    glColor3f(0.0, 0.0, 0.0);//(R,G,B)
+
+    glVertex3f(x+.09, y+.02, 0.0);
+    glVertex3f(x+.09, y+0.0, 0.0);
+    glVertex3f(x+.095, y+0.0, 0.0);
+    glVertex3f(x+.095, y+.02, 0.0);
+glEnd();
+
+
+
+
+glBegin(GL_POLYGON);//window Create
+
+    glColor3f(0.0, 0.0, 0.0);//(R,G,B)
+
+    glVertex3f(x, y, 0.0);
+    glVertex3f(x+.08, y, 0.0);
+    glVertex3f(x+.08, y+.08, 0.0);
+    glVertex3f(x, y+.08, 0.0);
+
+glEnd();
+
+
+glBegin(GL_POLYGON);//Roof Create
+
+glColor3f(1.5, 0.0, 0.0);//(R,G,B)
+
+glVertex3f(x+.02, y+.02, 0.0);
+glVertex3f(x+.06, y+.02, 0.0);
+glVertex3f(x+.06, y+.06, 0.0);
+glVertex3f(x+.02, y+.06, 0.0);
+
+glEnd();
+
+glBegin(GL_LINES);//Roof Right Down
+
+glColor3f(1.5, 0.0, 0.0);//(R,G,B)
+
+glVertex3f(x+.06, y+.02, 0.0);
+ glVertex3f(x+.08, y, 0.0);
+
+glEnd();
+
+
+glBegin(GL_LINES);//Roof Left Down
+
+glColor3f(1.5, 0.0, 0.0);//(R,G,B)
+
+glVertex3f(x+.02, y+.02, 0.0);
+ glVertex3f(x, y, 0.0);
+
+glEnd();
+
+glBegin(GL_LINES);//Roof Right UP
+
+glColor3f(1.5, 0.0, 0.0);//(R,G,B)
+
+glVertex3f(x+.06, y+.06, 0.0);
+ glVertex3f(x+.08, y+.08, 0.0);
+
+glEnd();
+glBegin(GL_LINES);//Roof Left UP
+glColor3f(1.5, 0.0, 0.0);//(R,G,B)
+
+glVertex3f(x+.02, y+.06, 0.0);
+glVertex3f(x, y+.08, 0.0);
+
+glEnd();
+
+glPopMatrix();
+}
+
+
+void dawEnemyCar2(void)
+{
+ glPushMatrix();
+float dy=enemyLocationy;
+glTranslatef(LocationX2,dy-=.01 , 0.0); //Move forward 5 units
+glRotatef(180, 1.0, 0.0, 0.0);
+    float x=0, y=0;
+glBegin(GL_POLYGON);//Bonutt create
+
+glBegin(GL_POLYGON);//Bonutt create
+
+    glColor3f(1.0, 0.0, 0.0);//(R,G,B)
+
+     glVertex3f(x-.01, y+.09, 0.0);
+     glVertex3f(x+.09, y+.09, 0.0);
+     glVertex3f(x+.08, y+.13, 0.0);
+     glVertex3f(x, y+.13, 0.0);
+
+glEnd();
+
+
+
+
+glBegin(GL_POLYGON);//Body Create
+
+    glColor3f(1.0, 0.0, 0.0);//(R,G,B)
+
+    glVertex3f(x-.01, y-.01, 0.0);
+    glVertex3f(x+.09, y-.01, 0.0);
+    glVertex3f(x+.09, y+.09, 0.0);
+    glVertex3f(x-.01, y+.09, 0.0);
+
+glEnd();
+
+
+glBegin(GL_POLYGON);//Body Wheel left up
+
+    glColor3f(0.0, 0.0, 0.0);//(R,G,B)
+
+    glVertex3f(x-.01, y+.09, 0.0);
+    glVertex3f(x-.015, y+.09, 0.0);
+    glVertex3f(x-.015, y+.07, 0.0);
+    glVertex3f(x-.01, y+.07, 0.0);
+
+glEnd();
+glBegin(GL_POLYGON);//Body Wheel Right up
+
+    glColor3f(0.0, 0.0, 0.0);//(R,G,B)
+
+    glVertex3f(x+.09, y+.09, 0.0);
+    glVertex3f(x+.09, y+.07, 0.0);
+    glVertex3f(x+.095, y+.07, 0.0);
+    glVertex3f(x+.095, y+.09, 0.0);
+glEnd();
+glBegin(GL_POLYGON);//Body Wheel left Down
+
+    glColor3f(0.0, 0.0, 0.0);//(R,G,B)
+
+    glVertex3f(x-.01, y+.02, 0.0);
+    glVertex3f(x-.015, y+.02, 0.0);
+    glVertex3f(x-.015, y+0.0, 0.0);
+    glVertex3f(x-.01, y+0.0, 0.0);
+
+glEnd();
+glBegin(GL_POLYGON);//Body Wheel Right Down
+
+    glColor3f(0.0, 0.0, 0.0);//(R,G,B)
+
+    glVertex3f(x+.09, y+.02, 0.0);
+    glVertex3f(x+.09, y+0.0, 0.0);
+    glVertex3f(x+.095, y+0.0, 0.0);
+    glVertex3f(x+.095, y+.02, 0.0);
+glEnd();
+
+
+
+
+glBegin(GL_POLYGON);//window Create
+
+    glColor3f(0.0, 0.0, 0.0);//(R,G,B)
+
+    glVertex3f(x, y, 0.0);
+    glVertex3f(x+.08, y, 0.0);
+    glVertex3f(x+.08, y+.08, 0.0);
+    glVertex3f(x, y+.08, 0.0);
+
+glEnd();
+
+
+glBegin(GL_POLYGON);//Roof Create
+
+glColor3f(1.5, 0.0, 0.0);//(R,G,B)
+
+glVertex3f(x+.02, y+.02, 0.0);
+glVertex3f(x+.06, y+.02, 0.0);
+glVertex3f(x+.06, y+.06, 0.0);
+glVertex3f(x+.02, y+.06, 0.0);
+
+glEnd();
+
+glBegin(GL_LINES);//Roof Right Down
+
+glColor3f(1.5, 0.0, 0.0);//(R,G,B)
+
+glVertex3f(x+.06, y+.02, 0.0);
+ glVertex3f(x+.08, y, 0.0);
+
+glEnd();
+
+
+glBegin(GL_LINES);//Roof Left Down
+
+glColor3f(1.5, 0.0, 0.0);//(R,G,B)
+
+glVertex3f(x+.02, y+.02, 0.0);
+ glVertex3f(x, y, 0.0);
+
+glEnd();
+
+glBegin(GL_LINES);//Roof Right UP
+
+glColor3f(1.5, 0.0, 0.0);//(R,G,B)
+
+glVertex3f(x+.06, y+.06, 0.0);
+ glVertex3f(x+.08, y+.08, 0.0);
+
+glEnd();
+glBegin(GL_LINES);//Roof Left UP
+glColor3f(1.5, 0.0, 0.0);//(R,G,B)
+
+glVertex3f(x+.02, y+.06, 0.0);
+glVertex3f(x, y+.08, 0.0);
+
+glEnd();
+
+glPopMatrix();
+}
+
+
+void nightMode(){
+
+glEnable(GL_BLEND);
+glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+if(night==true)
+glColor4f(.0, .0, 0.0, .7);
+else glColor4f(.0, .0, 0.0, 0);
+glBegin(GL_QUADS);
+glVertex3f(.0, .0, 0.0); // top left
+glVertex3f(1.0, .0, 0.0); // bottom left
+glVertex3f(1.0, 1.0, 0.0); // bottom right
+glVertex3f(.0, 1.0, 0.0); // top right
+glEnd();
+
+
+
+}
+
+//
+//void dayMode(){
+//if(night==false){
+//
+//glEnable(GL_BLEND);
+//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+//glColor4f(1.0, .0, 0.0, 0);
+//
+//glBegin(GL_QUADS);
+//glVertex3f(.0, .0, 0.0); // top left
+//glVertex3f(1.0, .0, 0.0); // bottom left
+//glVertex3f(1.0, 1.0, 0.0); // bottom right
+//glVertex3f(.0, 1.0, 0.0); // top right
+//glEnd();
+//
+//
+//}
+//}
+
+
+
+///draw_score_function
+void drawScore(void * font, char *s, int point, float x, float y){
+     glRasterPos2f(x, y);
+	 glColor3f(1.0, 1.0, 1.0);
+
+     for (int i = 0; i < strlen (s); i++)
+          glutBitmapCharacter (font, s[i]);
+     int temp = point;
+     int countArr=0;
+     int pointArr[5];
+     while(temp > 9)
+     {
+        pointArr[countArr] = temp%10;
+        temp /= 10;
+        countArr++;
+     }
+     pointArr[countArr] = temp%10;
+     countArr++;
+     for(int i = countArr; i>=0; i--){
+        glutBitmapCharacter(font,48+ (pointArr[i]));
+     }
+}
+
+
+void DrawBackGround()
+{
+    glBegin(GL_POLYGON);//Body Back Create
+
+    glColor3f(0.196078, 0.6, 0.8);//(R,G,B)
+
+    glVertex3f(0, 0, 0.0);
+    glVertex3f(2, 0, 0.0);
+    glVertex3f(2, 2, 0.0);
+    glVertex3f(0, 2, 0.0);
+
+glEnd();
+}
+
+
+
+
+
+void display(void)
+{
+/* clear all pixels */
+//glClear(GL_COLOR_BUFFER_BIT);
+
+glPushMatrix();
+glRotatef(40, 1.0, 0.0, 0.0); //Rotate about the the vector (1, 2, 3)
+DrawBackGround();
+dawRoad();
+dawYourCar();
+dawEnemyCar();
+dawEnemyCar2();
+
+glPopMatrix();
+
+glPushMatrix();
+//score = score + 10;
+   glColor3f(1,1,1);
+   //string v="Score::  "+int_to_str(score);
+ //  glTranslatef(-3.2,1.7, 0.0);
+        drawScore(GLUT_BITMAP_TIMES_ROMAN_24, "Score :: ",point,0.8,0.8);
+
+    glPopMatrix();
+
+if(clash==true){
+
+            PlaySound(TEXT("Sound Of Tires .wav"),NULL,SND_SYNC);
+
+        cout<<"..........................GAME OVER..................\n "<<"\n";
+	               exit(0);
+}
+nightMode();
+
+
+glFlush();
+}
+void init(void)
+{
+/* select clearing (background) color */
+glClearColor(0.0, 0.0, 0.0, 0.0);
+/* initialize viewing values */
+glMatrixMode(GL_PROJECTION);
+glLoadIdentity();
+//glOrtho(0.0, 1.0, 0.0, 1.0, -1.0, 1.0);
+gluOrtho2D(0.0,1,0.0,1);
+
+
+
+}
+
+
+void Specialkey(int key, int x, int y)//allow to use navigation key for movement of car
+{
+    //cout<<key<<"\n"<<x<<"\n"<<y<<"\n";
+switch(key)
+{
+case GLUT_KEY_UP:
+    if (mainCary>=.55) break;
+    else  mainCary=mainCary+.01;
+             break;
+case GLUT_KEY_DOWN:
+    if (mainCary<=0) mainCary=0;
+    else
+    mainCary=mainCary-.01;
+             break;
+case GLUT_KEY_LEFT:
+    if (mainCarx<.445) mainCarx=.285;
+    else
+    mainCarx=mainCarx-.17;
+             break;
+case GLUT_KEY_RIGHT:
+     if (mainCarx>.445) mainCarx=.625;
+    else
+    mainCarx=mainCarx+.17;
+             break;
+
+
+
+}
+
+//glutPostRe()display();
+}
+
+
+void make_randomRoadX2(float x){
+    int n=2;
+    for (int i =0;i<2;i++)
+    {
+
+    if(randomRoadX[n]!=x)
+        randomRoadX2[i]=randomRoadX[n];
+
+    n--;
+    }
+}
+
+void update(int value) {
+//if(mainCary > 0.04 && mainCary < 0.06)
+//    clash=true;
+
+
+//ROad divider run
+
+//speed=speed-5;
+//if(speed<=20) speed=20;
+
+
+lavelTime+=.2;
+if(speed<=15) speed=15;
+else if(lavelTime>=templavelTime+5)
+{  dawEnemyCar();
+    templavelTime=lavelTime;
+    speed=speed-5;
+//    shuffle(*randomRoadX, 3);
+
+}
+
+
+
+
+
+if(dy1<0)  dy1=.77;
+dy1-=.02;
+if(dy2<0)  dy2=.77;
+dy2-=.02;
+if(dy3<0)  dy3=.77;
+dy3-=.02;
+if(dy4<0)  dy4=.77;
+dy4-=.02;
+if(dy5<0)  dy5=.77;
+dy5-=.02;
+if(dy6<0)  dy6=.77;
+dy6-=.02;
+if(dy7<0)  dy7=.77;
+dy7-=.02;
+if(dy8<0)  dy8=.77;
+dy8-=.02;
+
+
+
+
+
+
+point++;
+if(mainCary>= enemyLocationy-.28 && mainCary<= enemyLocationy-.001 )
+{
+
+    if(mainCarx>=LocationX-.03 && mainCarx<=LocationX+.03  )
+  clash=true;
+    if(mainCarx>=LocationX2-.03 && mainCarx<=LocationX2+.03)
+  clash=true;
+
+}
+
+     viewCarTime+=1;
+    // cout<< viewCarTime<<"\n";
+     //cout<< enemyLocationy<<"\n";
+     //cout<< mainCary<<"\n";
+//lavelTime+=.2;
+
+enemyLocationy-=.01;
+if(enemyLocationy<0) enemyLocationy=.75;
+
+
+if(viewCarTime%76==0){
+
+    LocationX= randomRoadX[rand()% 3];
+
+    make_randomRoadX2(LocationX);
+    LocationX2= randomRoadX2[rand()% 2];
+}
+
+	glutPostRedisplay(); //Tell GLUT that the display has changed
+
+	//Tell GLUT to call update again in 25 milliseconds
+
+	//cout<<speed<<"\n";
+	glutTimerFunc(speed, update, 0);
+}
+void NormalKey(GLubyte key, GLint x, GLint y)
+{
+   switch(key){
+     case ESCAPE : cout<<"escape pressed. exit.\n";
+      cout<<"GAME OVER..................\n YOUR SCORE::::  "<<point<<"\n";
+	               exit(0);
+                    break;
+     case ' ':
+         //system("pause>null");
+
+       if(pause!=true)
+         {
+            newspeed=speed;
+            speed=10000;
+            pause=true;
+            break;
+         }
+        else if(pause==true)
+        {
+            speed=newspeed;
+            glutTimerFunc(speed, update, 0);
+            pause=false;
+            break;
+        }
+
+     case 'n':
+         night=true;
+         break;
+
+     case 'd':
+         night=false;
+         break;
+   }
+
+}
+int main(int argc, char** argv)
+{
+glutInit(&argc, argv);
+glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
+glutInitWindowSize(800, 700);
+glutInitWindowPosition(300, 0);
+glutCreateWindow("");
+init();
+glutDisplayFunc(display);
+glutKeyboardFunc(NormalKey);
+glutSpecialFunc(Specialkey);
+glutTimerFunc(speed, update, 0); //Add a timer
+
+glutMainLoop();
+
+
+return 0;
+}
+

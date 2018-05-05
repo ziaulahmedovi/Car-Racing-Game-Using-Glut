@@ -1,0 +1,20 @@
+Car sound,
+Light stamp,
+sun moon,
+tree,
+jump
+clash sound
+fire 
+environment change
+Score borad,
+Car health
+
+1. MOUSE CLICK,
+2. KEYBOARD KEY
+3. ENVIRONMENT CHANGE
+4. SUNSET
+5. SOUND
+6. SCORE BOARD.
+
+
+Electric fan
